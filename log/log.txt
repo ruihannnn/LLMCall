@@ -453,3 +453,91 @@ PermissionError: [Errno 13] Permission denied: 'C:\\开源代码\\LLMCall'
 2025-07-18 19:08:48,438 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
 2025-07-18 19:09:09,537 [INFO] chat_llm: 处理完成: C:\\开源代码\\LLMCall\\data\\output.jsonl
 2025-07-18 19:09:09,537 [INFO] __main__: 处理完成，用时: 21.71秒
+2025-07-18 19:24:34,934 [INFO] __main__: 日志初始化完成: log/log.txt
+2025-07-18 19:24:34,934 [ERROR] __main__: 执行失败: module 'response_processor' has no attribute 'simple_reponse_processor'
+Traceback (most recent call last):
+  File "C:\开源代码\LLMCall\main.py", line 202, in main
+    chat_llm = init_chat_llm()
+  File "C:\开源代码\LLMCall\main.py", line 89, in init_chat_llm
+    group_processors = [getattr(response_processor, name) for name in group]
+  File "C:\开源代码\LLMCall\main.py", line 89, in <listcomp>
+    group_processors = [getattr(response_processor, name) for name in group]
+AttributeError: module 'response_processor' has no attribute 'simple_reponse_processor'. Did you mean: 'simple_response_processor'?
+2025-07-18 19:24:53,961 [INFO] __main__: 日志初始化完成: log/log.txt
+2025-07-18 19:24:53,962 [INFO] dataset_config: 数据集配置: ['session', 'query'] -> ['answer_1_1', 'answer1_2', 'answer2_1']
+2025-07-18 19:24:53,962 [INFO] chat_llm: 初始化ChatLLM（分组模式），URL: https://api.deepseek.com
+2025-07-18 19:24:53,962 [INFO] chat_llm: Prompt Keys: ['generate_assistant_new', 'tmp']
+2025-07-18 19:24:53,962 [INFO] chat_llm: 分组数量: 2
+2025-07-18 19:24:53,962 [INFO] chat_llm: 第1组处理器: ['no_think_response_processor', 'simple_response_processor']
+2025-07-18 19:24:53,962 [INFO] chat_llm: 第2组处理器: ['no_think_response_processor']
+2025-07-18 19:24:54,008 [INFO] __main__: 开始处理: C:\\开源代码\\LLMCall\\data\\input.jsonl -> C:\\开源代码\\LLMCall\\data\\output.jsonl
+2025-07-18 19:24:54,040 [INFO] chat_llm: 开始处理文件：C:\\开源代码\\LLMCall\\data\\input.jsonl
+2025-07-18 19:24:54,539 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,541 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,542 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,545 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,586 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,605 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,607 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,608 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,608 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:24:54,662 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:08,825 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:09,601 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:14,410 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:15,895 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:15,907 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:17,631 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:17,890 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:18,639 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:18,735 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:22,085 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:25:49,971 [INFO] chat_llm: 处理完成: C:\\开源代码\\LLMCall\\data\\output.jsonl
+2025-07-18 19:25:49,972 [INFO] __main__: 处理完成，用时: 55.96秒
+2025-07-18 19:29:23,737 [INFO] __main__: 日志初始化完成: log/log.txt
+2025-07-18 19:29:23,737 [INFO] dataset_config: 数据集配置: ['session', 'query'] -> ['answer_1_1', 'answer1_2', 'answer2_1']
+2025-07-18 19:29:23,737 [INFO] chat_llm: 初始化ChatLLM（分组模式），URL: https://api.deepseek.com
+2025-07-18 19:29:23,737 [INFO] chat_llm: Prompt Keys: ['generate_assistant_new', 'tmp']
+2025-07-18 19:29:23,737 [INFO] chat_llm: 分组数量: 2
+2025-07-18 19:29:23,737 [INFO] chat_llm: 第1组处理器: ['no_think_response_processor', 'test_respoonse_processor']
+2025-07-18 19:29:23,740 [INFO] chat_llm: 第2组处理器: ['no_think_response_processor']
+2025-07-18 19:29:23,790 [INFO] __main__: 开始处理: C:\\开源代码\\LLMCall\\data\\input.jsonl -> C:\\开源代码\\LLMCall\\data\\output.jsonl
+2025-07-18 19:29:23,823 [INFO] chat_llm: 开始处理文件：C:\\开源代码\\LLMCall\\data\\input.jsonl
+2025-07-18 19:29:24,360 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,385 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,390 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,391 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,392 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,398 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,404 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,405 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,493 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:24,496 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:38,474 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:39,123 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:41,048 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:41,490 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:44,827 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:44,850 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:47,507 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:48,395 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:48,748 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:29:49,412 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 19:30:17,337 [INFO] chat_llm: 处理完成: C:\\开源代码\\LLMCall\\data\\output.jsonl
+2025-07-18 19:30:17,339 [INFO] __main__: 处理完成，用时: 53.55秒
+2025-07-18 19:31:49,534 [INFO] __main__: 日志初始化完成: log/log.txt
+2025-07-18 19:31:49,535 [ERROR] __main__: 执行失败: 分组模式下，RESPONSE_PROCESSOR分组数量(1)必须与PROMPT_KEY数量(2)相同
+Traceback (most recent call last):
+  File "C:\开源代码\LLMCall\main.py", line 202, in main
+    chat_llm = init_chat_llm()
+  File "C:\开源代码\LLMCall\main.py", line 71, in init_chat_llm
+    raise ValueError(f"分组模式下，RESPONSE_PROCESSOR分组数量({len(grouped_response_processors)})必须与PROMPT_KEY数量({len(prompt_keys)})相同")
+ValueError: 分组模式下，RESPONSE_PROCESSOR分组数量(1)必须与PROMPT_KEY数量(2)相同
+2025-07-18 19:32:01,948 [INFO] __main__: 日志初始化完成: log/log.txt
+2025-07-18 19:32:01,949 [ERROR] __main__: 执行失败: 分组模式下，OUTPUT_COLUMN分组数量(1)必须与PROMPT_KEY数量(2)相同
+Traceback (most recent call last):
+  File "C:\开源代码\LLMCall\main.py", line 202, in main
+    chat_llm = init_chat_llm()
+  File "C:\开源代码\LLMCall\main.py", line 74, in init_chat_llm
+    raise ValueError(f"分组模式下，OUTPUT_COLUMN分组数量({len(grouped_output_columns)})必须与PROMPT_KEY数量({len(prompt_keys)})相同")
+ValueError: 分组模式下，OUTPUT_COLUMN分组数量(1)必须与PROMPT_KEY数量(2)相同

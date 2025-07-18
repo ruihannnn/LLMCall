@@ -21,37 +21,57 @@ class ChatLLM:
         generate_config: LLM生成的配置信息
         dataset_config: 数据集配置信息。
         api_key: LLM服务的API密钥，如果是本地部署则不需要密钥
+        grouped_mode: 是否开启分组模式
+        grouped_output_columns: 分组模式下的输出列分组信息
     """
     
     def __init__(
         self,
         llm_url: str,
         prompt_key: Union[str, List[str]],
-        response_processor: Union[Callable[[str], Any], List[Callable[[str], Any]]],
+        response_processor: Union[Callable[[str], Any], List[Callable[[str], Any]], List[List[Callable[[str], Any]]]],
         generate_config: Dict,
         dataset_config: DatasetConfig,
         api_key: str = "test",
+        grouped_mode: bool = False,
+        grouped_output_columns: Optional[List[List[str]]] = None,
     ):
         """初始化ChatLLM实例
         
         Args:
             llm_url: LLM服务URL地址
             prompt_key: prompt模板键名，支持单个字符串或字符串列表
-            response_processor: 响应处理回调函数，支持单个函数或函数列表
+            response_processor: 响应处理回调函数，支持单个函数、函数列表或分组函数列表
             generate_config: LLM生成配置参数
             dataset_config: 数据集配置对象
             api_key: API密钥，默认为"test"
+            grouped_mode: 是否开启分组模式
+            grouped_output_columns: 分组模式下的输出列分组信息
         """
         self.llm_url = llm_url
         self.prompt_keys = prompt_key if isinstance(prompt_key, list) else [prompt_key]
-        self.response_processors = response_processor if isinstance(response_processor, list) else [response_processor]
         self.dataset_config = dataset_config
         self.api_key = api_key
         self.generate_config = generate_config or {}
         
-        logger.info(f"初始化ChatLLM，URL: {llm_url}")
-        logger.info(f"Prompt Keys: {self.prompt_keys}")
-        logger.info(f"Response Processors: {[proc.__name__ for proc in self.response_processors]}")
+        # 分组模式相关属性
+        self.grouped_mode = grouped_mode
+        self.grouped_output_columns = grouped_output_columns
+        
+        if grouped_mode:
+            # 分组模式：response_processor应该是List[List[Callable]]
+            self.grouped_response_processors = response_processor
+            logger.info(f"初始化ChatLLM（分组模式），URL: {llm_url}")
+            logger.info(f"Prompt Keys: {self.prompt_keys}")
+            logger.info(f"分组数量: {len(self.grouped_response_processors)}")
+            for i, group in enumerate(self.grouped_response_processors):
+                logger.info(f"第{i+1}组处理器: {[proc.__name__ for proc in group]}")
+        else:
+            # 原有模式
+            self.response_processors = response_processor if isinstance(response_processor, list) else [response_processor]
+            logger.info(f"初始化ChatLLM，URL: {llm_url}")
+            logger.info(f"Prompt Keys: {self.prompt_keys}")
+            logger.info(f"Response Processors: {[proc.__name__ for proc in self.response_processors]}")
         
         # 验证prompt_key
         for pk in self.prompt_keys:
@@ -109,7 +129,7 @@ class ChatLLM:
         return responses
 
     def process_entry(self, data_row: Dict) -> Dict:
-        """处理单个数据条目 - 支持新功能：单个prompt多次后处理
+        """处理单个数据条目 - 支持分组模式
         
         Args:
             data_row: 单行数据字典
@@ -118,7 +138,55 @@ class ChatLLM:
             处理后的数据字典，包含生成的响应和prompt
         """
         try:
-            if len(self.prompt_keys) == 1:
+            if self.grouped_mode:
+                # 分组模式处理
+                for idx, prompt_key in enumerate(self.prompt_keys):
+                    prompt_template, num_expected_vals = all_prompt_dict[prompt_key]
+                    
+                    # 提取输入字段
+                    entry = {k: data_row[k] for k in self.dataset_config.input_columns if k in data_row}
+                    
+                    # 验证字段
+                    if len(entry) != num_expected_vals or len(entry) != len(self.dataset_config.input_columns):
+                        logger.error(f"字段验证失败，需要{num_expected_vals}个字段，实际{len(entry)}个")
+                        continue
+                    
+                    # 格式化prompt
+                    ordered_values = [entry[col] for col in self.dataset_config.input_columns]
+                    prompt = prompt_template.format(*ordered_values)
+                    
+                    # 生成一次原始响应
+                    raw_response = None
+                    max_retries = 5
+                    for retry in range(max_retries):
+                        raw_response = self._call_llm(prompt)
+                        if raw_response and raw_response != '<|wrong data|>':
+                            break
+                    
+                    if not raw_response:
+                        logger.warning(f"无法生成有效响应")
+                        continue
+                    
+                    # 获取该prompt对应的处理器组和输出列组
+                    processor_group = self.grouped_response_processors[idx]
+                    output_column_group = self.grouped_output_columns[idx]
+                    
+                    # 对每个处理器和输出列进行处理
+                    for processor, output_column in zip(processor_group, output_column_group):
+                        try:
+                            processed_response = processor(raw_response)
+                            if processed_response is not None:
+                                data_row[output_column] = processed_response
+                        except Exception as e:
+                            logger.debug(f"响应处理失败 (输出列{output_column}): {e}")
+                            continue
+                    
+                    # 保存prompt（如果需要）
+                    if (self.dataset_config.output_prompt_column and 
+                        idx < len(self.dataset_config.output_prompt_column)):
+                        data_row[self.dataset_config.output_prompt_column[idx]] = prompt
+            
+            elif len(self.prompt_keys) == 1:
                 # 单个prompt，可能有多个输出列
                 prompt_key = self.prompt_keys[0]
                 prompt_template, num_expected_vals = all_prompt_dict[prompt_key]

@@ -56,3 +56,6 @@ def simple_response_processor(response: str) -> str:
     result = response.strip()
     logger.debug("成功处理simple响应")
     return result
+
+def test_respoonse_processor(response:str)-> str:
+    return '111'
