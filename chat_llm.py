@@ -17,7 +17,7 @@ class ChatLLM:
     Args:
         llm_url: LLM服务的基础URL地址。
         prompt_key: 用于从all_prompt_dict中获取prompt模板的键名，支持单个或多个。
-        response_processor: 用于处理LLM响应的回调函数，支持单个或多个。
+        response_processor: 用于格式化LLM响应的输出解析器，支持单个或多个。
         generate_config: LLM生成的配置信息
         dataset_config: 数据集配置信息。
         api_key: LLM服务的API密钥，如果是本地部署则不需要密钥
@@ -41,7 +41,7 @@ class ChatLLM:
         Args:
             llm_url: LLM服务URL地址
             prompt_key: prompt模板键名，支持单个字符串或字符串列表
-            response_processor: 响应处理回调函数，支持单个函数、函数列表或分组函数列表
+            response_processor: 输出解析器，支持单个函数、函数列表或分组函数列表
             generate_config: LLM生成配置参数
             dataset_config: 数据集配置对象
             api_key: API密钥，默认为"test"
@@ -164,7 +164,7 @@ class ChatLLM:
                             break
                     
                     if not raw_response:
-                        logger.warning(f"无法生成有效响应")
+                        logger.warning("无法生成有效响应")
                         continue
                     
                     # 获取该prompt对应的处理器组和输出列组
@@ -212,7 +212,7 @@ class ChatLLM:
                         break
                 
                 if not raw_response:
-                    logger.warning(f"无法生成有效响应")
+                    logger.warning("无法生成有效响应")
                     return data_row
                 
                 # 对每个输出列使用对应的处理器处理同一个原始响应
@@ -250,7 +250,7 @@ class ChatLLM:
                     ordered_values = [entry[col] for col in self.dataset_config.input_columns]
                     prompt = prompt_template.format(*ordered_values)
                     
-                    # 获取对应的响应处理器
+                    # 获取对应的输出解析器
                     processor = self.response_processors[idx]
                     
                     # 生成响应
