@@ -122,6 +122,5 @@ async def main():
 
 
 if __name__ == '__main__':
-
-    load_dotenv('.env', override=True)  # 直接使用.env文件
+    load_dotenv('.env', override=True)  # 使用.env文件
     asyncio.run(main())
