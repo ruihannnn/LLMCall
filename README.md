@@ -2,20 +2,42 @@
 
 高效的大语言模型批量数据处理工具，支持多prompt模板和并发处理。
 
+<div align="center">
+  <p>
+    <img src="https://img.shields.io/badge/特性-并发处理-blue">
+    <img src="https://img.shields.io/badge/模式-四种工作模式-green">
+    <img src="https://img.shields.io/badge/扩展-高可扩展性-orange">
+  </p>
+</div>
+
 ## 功能特性
 
-- 🚀 **并发处理**：多线程并行，显著提升处理速度
-- 📝 **四种工作模式**：从简单到复杂，满足不同数据处理需求
-- 🔧 **可扩展性强**：新增prompt模板，输出后处理
+- 🚀 **并发处理**：多线程并行执行，显著提升批量数据处理速度
+- 📝 **四种工作模式**：从简单到复杂，覆盖不同数据处理场景需求
+- 🔧 **可扩展性强**：支持新增prompt模板与输出后处理逻辑，适配多样化业务
 
 ## 四种工作模式
 
-### 模式一：单prompt，单回调，单输出列
-**适用场景**：基础数据处理，一对一转换
-- 一个prompt模板生成一个响应
-- 使用一个输出解析器进行后处理
-- 输出到一个列
-- **优势**：配置简单，处理速度最快
+### 模式对比概览
+
+| 模式 | 核心特点 |
+|------|----------|
+| 模式一 | 单prompt，单回调，单输出列 |
+| 模式二 | 单prompt，多回调，多输出列 |
+| 模式三 | 多prompt，多回调和输出列（一一对应） |
+| 模式四 | 多prompt，多回调和输出列（分组模式） |
+
+### 详细说明
+
+<details>
+<summary>模式一：单prompt，单回调，单输出列</summary>
+
+**适用场景**：基础数据处理，一对一转换  
+- 一个prompt模板生成一个响应  
+- 使用一个输出解析器进行后处理  
+- 输出到一个列  
+
+**优势**：配置简单，处理速度最快  
 
 **配置示例**：
 ```bash
@@ -24,13 +46,17 @@ RESPONSE_PROCESSOR=processor1
 OUTPUT_COLUMN=answer
 OUTPUT_PROMPT_COLUMN=prompt
 ```
+</details>
 
-### 模式二：单prompt，多回调，多输出列
-**适用场景**：需要对同一响应进行多种格式化处理
-- 一个prompt模板生成一个响应
-- 使用多个输出解析器同时处理同一个响应
-- 输出到多个列（如：原始文本、JSON格式、清理后文本）
-- **优势**：节省LLM调用成本，一次生成多种格式
+<details>
+<summary>模式二：单prompt，多回调，多输出列</summary>
+
+**适用场景**：需要对同一响应进行多种格式化处理  
+- 一个prompt模板生成一个响应  
+- 使用多个输出解析器同时处理同一个响应  
+- 输出到多个列（如：原始文本、JSON格式、清理后文本）  
+
+**优势**：节省LLM调用成本，一次生成多种格式  
 
 **配置示例**：
 ```bash
@@ -39,13 +65,17 @@ RESPONSE_PROCESSOR=processor1,processor2,processor3
 OUTPUT_COLUMN=answer1,answer2,answer3
 OUTPUT_PROMPT_COLUMN=prompt
 ```
+</details>
 
-### 模式三：多prompt，多回调和输出列（一一对应）
-**适用场景**：需要生成多种不同类型的内容
-- 多个prompt模板分别生成不同的响应
-- 每个响应使用对应的输出解析器
-- 输出到对应的列
-- **优势**：并行处理不同类型的任务，提高处理效率
+<details>
+<summary>模式三：多prompt，多回调和输出列（一一对应）</summary>
+
+**适用场景**：需要生成多种不同类型的内容  
+- 多个prompt模板分别生成不同的响应  
+- 每个响应使用对应的输出解析器  
+- 输出到对应的列  
+
+**优势**：并行处理不同类型的任务，提高处理效率  
 
 **配置示例**：
 ```bash
@@ -54,13 +84,17 @@ RESPONSE_PROCESSOR=processor1,processor2,processor3
 OUTPUT_COLUMN=answer1,answer2,answer3
 OUTPUT_PROMPT_COLUMN=prompt1,prompt2,prompt3
 ```
+</details>
 
-### 模式四：多prompt，多回调和输出列（分组模式）
-**适用场景**：复杂的数据处理需求，最大灵活性
-- 多个prompt模板分别生成不同的响应
-- 每个响应可以使用多个输出解析器进行不同的后处理
-- 每个prompt对应一组输出列
-- **优势**：最大的配置灵活性，适合复杂业务场景
+<details>
+<summary>模式四：多prompt，多回调和输出列（分组模式）</summary>
+
+**适用场景**：复杂的数据处理需求，最大灵活性  
+- 多个prompt模板分别生成不同的响应  
+- 每个响应可以使用多个输出解析器进行不同的后处理  
+- 每个prompt对应一组输出列  
+
+**优势**：最大的配置灵活性，适合复杂业务场景  
 
 **配置示例**：
 ```bash
@@ -70,10 +104,11 @@ OUTPUT_COLUMN=[answer1,answer2],[answer3],[answer4,answer5,answer6]
 OUTPUT_PROMPT_COLUMN=prompt1,prompt2,prompt3
 ```
 
-**分组模式说明**：
-- 第1个prompt (`prompt1`) 使用2个输出解析器，输出到2个列
+**分组模式说明**：  
+- 第1个prompt (`prompt1`) 使用2个输出解析器，输出到2个列  
 - 第2个prompt (`prompt2`) 使用1个输出解析器，输出到1个列  
-- 第3个prompt (`prompt3`) 使用3个输出解析器，输出到3个列
+- 第3个prompt (`prompt3`) 使用3个输出解析器，输出到3个列  
+</details>
 
 ## 快速开始
 
@@ -129,13 +164,11 @@ RESPONSE_PROCESSOR=...
 OUTPUT_COLUMN=...
 ```
 
-
 ### 6. 运行
 
 ```bash
 python main.py
 ```
-
 
 ## 扩展开发
 
@@ -175,8 +208,8 @@ def new_processor(response: str) -> Any:
 RESPONSE_PROCESSOR=new_processor
 ```
 
-
 ## 项目结构
+
 ```
 llm_distill_tool_v2/
 ├── .env.example              # 配置文件（含四种模式配置说明）
@@ -192,7 +225,7 @@ llm_distill_tool_v2/
 ## 注意事项
 
 ### 部署环境
-- 代码必须部署在数据卷的个人文件夹下，避免权限问题
+- 代码必须部署在数据卷的个人文件夹下，避免权限问题  
 - 首次使用需安装lizrun工具，参考[公司文档](https://li.feishu.cn/wiki/P3yKwND9Wiz2ylkTDkHciuBDnIc)
 
 ### 网络配置

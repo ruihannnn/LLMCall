@@ -8,3 +8,11 @@ wheels/
 
 # Virtual environments
 .venv
+uv.lock
+.python-version
+pyproject.toml
+
+data/
+log/
+.env
+.pytest_cache

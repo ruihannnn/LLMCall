@@ -57,5 +57,19 @@ def simple_response_processor(response: str) -> str:
     logger.debug("成功处理simple响应")
     return result
 
-def test_respoonse_processor(response:str)-> str:
+
+# 以下是测试用的回调函数
+def test_111_response_processor1(response: str) -> str:
+    if response is None or len(response.strip()) == 0:
+        return ""
     return '111'
+
+def test_111_response_processor2(response: str) -> str:
+    if response is None or len(response.strip()) == 0:
+        return ""
+    return '222'
+
+def test_111_response_processor3(response: str) -> str:
+    if response is None or len(response.strip()) == 0:
+        return ""
+    return '333'
