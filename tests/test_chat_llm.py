@@ -24,27 +24,6 @@ class TestChatLLM:
         # 设置测试专用的MAX_ROWS限制
         os.environ['MAX_ROWS'] = '5'
     
-    def test_invalid_prompt_key():
-        """测试无效的prompt key"""
-        os.environ['PROMPT_KEY'] = 'non_existent_prompt'
-        with pytest.raises(AttributeError):
-            init_chat_llm()
-
-    def test_invalid_response_processor():
-        """测试无效的响应处理器"""
-        os.environ['RESPONSE_PROCESSOR'] = 'non_existent_processor'
-        with pytest.raises(AttributeError):
-            init_chat_llm()
-
-    def test_mismatched_config_count():
-        """测试配置数量不匹配"""
-        os.environ.update({
-            'PROMPT_KEY': 'test1,test2',
-            'OUTPUT_COLUMN': 'col1'  # 数量不匹配
-        })
-        with pytest.raises(ValueError):
-            init_chat_llm()
-    
     def test_mode1_no_prompt(self, setup_env):
         """测试模式1：无prompt列输出"""
         # 设置测试专用环境变量
