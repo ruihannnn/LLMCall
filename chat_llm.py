@@ -273,7 +273,7 @@ class ChatLLM:
             return data_row
 
     def produce_data(self, data_rows: List[Dict], output_path: str, pbar: tqdm):
-        """批量处理数据并直接写入文件 - 仿照第二段代码的produce_data结构
+        """批量处理数据并直接写入文件
         
         Args:
             data_rows: 一批数据字典列表
@@ -374,7 +374,7 @@ class ChatLLM:
         return all_nums
 
     def process_dataset(self):
-        """处理整个数据集 - 仿照第二段代码的main_entry结构
+        """处理整个数据集
         
         主要流程：
         1. 批次读取JSONL文件
