@@ -22,15 +22,15 @@
 
 | 模式 | 核心特点 |
 |------|----------|
-| 模式一 | 单prompt，单回调，单输出列 |
-| 模式二 | 单prompt，多回调，多输出列 |
-| 模式三 | 多prompt，多回调和输出列（一一对应） |
-| 模式四 | 多prompt，多回调和输出列（分组模式） |
+| 模式一 | 单prompt，单输出解析器，单输出列 |
+| 模式二 | 单prompt，多输出解析器，多输出列 |
+| 模式三 | 多prompt，多输出解析器和输出列（一一对应） |
+| 模式四 | 多prompt，多输出解析器和输出列（分组模式） |
 
 ### 详细说明
 
 <details>
-<summary>模式一：单prompt，单回调，单输出列</summary>
+<summary>模式一：单prompt，单输出解析器，单输出列</summary>
 
 **适用场景**：基础数据处理，一对一转换  
 - 一个prompt模板生成一个响应  
@@ -49,7 +49,7 @@ OUTPUT_PROMPT_COLUMN=prompt
 </details>
 
 <details>
-<summary>模式二：单prompt，多回调，多输出列</summary>
+<summary>模式二：单prompt，多输出解析器，多输出列</summary>
 
 **适用场景**：需要对同一响应进行多种格式化处理  
 - 一个prompt模板生成一个响应  
@@ -68,7 +68,7 @@ OUTPUT_PROMPT_COLUMN=prompt
 </details>
 
 <details>
-<summary>模式三：多prompt，多回调和输出列（一一对应）</summary>
+<summary>模式三：多prompt，多输出解析器和输出列（一一对应）</summary>
 
 **适用场景**：需要生成多种不同类型的内容  
 - 多个prompt模板分别生成不同的响应  
@@ -87,7 +87,7 @@ OUTPUT_PROMPT_COLUMN=prompt1,prompt2,prompt3
 </details>
 
 <details>
-<summary>模式四：多prompt，多回调和输出列（分组模式）</summary>
+<summary>模式四：多prompt，多输出解析器和输出列（分组模式）</summary>
 
 **适用场景**：复杂的数据处理需求，最大灵活性  
 - 多个prompt模板分别生成不同的响应  
