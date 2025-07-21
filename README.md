@@ -226,6 +226,5 @@ llm_distill_tool_v2/
 ├── dataset_config.py        # 数据集配置
 ├── prompt.py                # Prompt模板
 ├── response_processor.py    # 输出解析器
-├── tests/                   # 测试文件
-└── model_deployment/        # 模型部署脚本
+└── tests/                   # 测试文件
 ```
