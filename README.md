@@ -123,37 +123,17 @@ cd llm_distill_tool_v2
 pip install -r requirements.txt
 ```
 
-### 2. 模型部署
 
-在LPAI平台上部署LLM模型：
 
-```bash
-bash model_deployment/lizrun_lpai_sglang_api_qwen3_32b.sh
-```
-
-### 3. 获取模型服务地址
-
-```bash
-# 查看运行状态
-lizrun lpai list
-
-# 获取具体运行信息和模型IP
-lizrun lpai list -j <训练组件名称>
-```
-
-### 4. 测试模型连通性
-
-```bash
-pytest tests/test_llm_connection.py
-```
-
-### 5. 配置文件设置
+### 2. 配置文件设置
 
 根据您的需求选择工作模式，编辑 `.env.example` 文件：
 
 ```bash
 # 基础配置
-LLM_URL=http://<模型IP>:1688/v1/
+LLM_URL=<>
+API_KEY=<>
+MODEL_NAME=<>
 INPUT_PATH=/path/to/input.jsonl
 OUTPUT_PATH=/path/to/output.jsonl
 INPUT_COLUMNS=session,query
@@ -164,7 +144,7 @@ RESPONSE_PROCESSOR=...
 OUTPUT_COLUMN=...
 ```
 
-### 6. 运行
+### 3. 运行
 
 ```bash
 python main.py
@@ -187,6 +167,34 @@ all_prompt_dict = {
     # 其他模板...
 }
 ```
+<details>
+<summary>⚠️ 重要提醒：如果prompt中包含大括号，需要转义大括号避免格式化错误</summary>
+例如，
+
+```python
+prompt_with_json = """
+回答格式：
+```json
+{
+    "字段": "值"
+}
+输入：{0}
+"""
+```
+❌错误写法：会导致 KeyError
+
+```python
+prompt_with_json = """
+回答格式：
+json{{
+    "字段": "值"
+}}
+输入：{0}
+"""
+```
+✅ 正确写法 - 使用双大括号转义
+</details>
+
 
 2. 在 `.env.example` 中使用：
 ```bash
@@ -221,12 +229,3 @@ llm_distill_tool_v2/
 ├── tests/                   # 测试文件
 └── model_deployment/        # 模型部署脚本
 ```
-
-## 注意事项
-
-### 部署环境
-- 代码必须部署在数据卷的个人文件夹下，避免权限问题  
-- 首次使用需安装lizrun工具，参考[公司文档](https://li.feishu.cn/wiki/P3yKwND9Wiz2ylkTDkHciuBDnIc)
-
-### 网络配置
-- 如遇pip超时，请配置公司pip源，参考[配置文档](https://li.feishu.cn/wiki/FIU9weHr4iDZIzkioCocWd4Yn4b)
